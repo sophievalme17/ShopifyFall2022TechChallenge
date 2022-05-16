@@ -1,0 +1,45 @@
+Fall 2022 Data Science Intern Technical Challenge - Sophie-Anne Valme
+
+Question 1
+
+1a. Looking at the summary stats from the 'order_amount' column, I can tell that the average order amount (AOV) of $3145.13 was taken from the mean value. The maximum order amount is relatively high compared to the median order amount, and even the second and third quartiles. There must be too many outliers within the data, which makes an AOV of $3145.13 odd.
+If we look at the median value, that would be a better metric to evaluate the AOV. This is because outliers will not affect the median value as much as it would the mean value. 
+
+1b. The better metric to use would be the median value. We can calculate what the median will be (even though it is shown in the summary statistics)
+
+1c. The median value is $284.00, which is the best metric to evaluate the average order amount (AOV).
+
+
+
+
+Question 2
+
+2a. How many orders were shipped by Speedy Express in total? 
+
+SELECT count(Orders.ShipperID) as '# of orders shipped', ShipperName as 'Shipper Name'
+FROM Shippers, Orders
+WHERE Orders.ShipperID = Shippers.ShipperID and Shippers.ShipperName = 'Speedy Express'
+GROUP BY ShipperName;
+
+Answer: 54 orders were shipped by Speedy Express
+
+2b. What is the last name of the employee with the most orders?
+
+SELECT LastName as "Employee's Last Name", count(*) as "Total Number of Orders"
+FROM Orders, Employees
+WHERE Orders.EmployeeID = Employees.EmployeeID
+GROUP BY LastName
+ORDER BY count(*) DESC;
+
+Answer: The last name of the employee with the most orders is Peacock.
+
+2c. What product was ordered the most by customers in Germany?
+
+SELECT ProductName as 'Product Name', sum(Quantity) as '# of times ordered' 
+FROM Products, Orders, OrderDetails, Customers   
+WHERE Products.ProductID = OrderDetails.ProductID and Orders.CustomerID = Customers.CustomerID and Orders.OrderID = OrderDetails.OrderID 
+and Country = 'Germany'  
+GROUP BY ProductName
+ORDER BY sum(Quantity) DESC;
+
+Answer: Boston Crab Meat was the product ordered most by customers in Germany.
